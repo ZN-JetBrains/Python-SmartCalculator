@@ -39,8 +39,23 @@ class Calculator:
 
 
 def run():
-    a, b = [int(x) for x in input().split(" ")]
-    print(Calculator.add(a, b))
+    while True:
+        user_input = input()
+
+        if not user_input:
+            continue
+
+        if user_input == "/exit":
+            print("Bye!")
+            break
+
+        input_list = user_input.split(" ")
+        if len(input_list) < 2:
+            print(int(input_list[0]))
+            continue
+
+        a, b = [int(x) for x in input_list]
+        print(Calculator.add(a, b))
 
 
 if __name__ == "__main__":
