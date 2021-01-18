@@ -6,8 +6,15 @@ class Calculator:
         pass
 
     @staticmethod
-    def add(a, b):
-        return a + b
+    def add(numbers):
+        return sum(numbers)
+
+    @staticmethod
+    def add_args(*args):
+        sum_ = 0
+        for num in args:
+            sum_ += num
+        return sum_
 
     @staticmethod
     def subtract(a, b):
@@ -42,6 +49,7 @@ def run():
     while True:
         user_input = input()
 
+        # IF no input is entered
         if not user_input:
             continue
 
@@ -49,13 +57,20 @@ def run():
             print("Bye!")
             break
 
+        if user_input == "/help":
+            print("The program calculates the sum of numbers")
+            continue
+
         input_list = user_input.split(" ")
+
+        # IF only one number is entered
         if len(input_list) < 2:
             print(int(input_list[0]))
             continue
 
-        a, b = [int(x) for x in input_list]
-        print(Calculator.add(a, b))
+        # Sum all numbers
+        numbers = [int(x) for x in input_list]
+        print(Calculator.add(numbers))
 
 
 if __name__ == "__main__":
