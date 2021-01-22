@@ -1,13 +1,61 @@
 # Author: Zaid Neurothrone
 
+from collections import deque
+
+
 class Calculator:
+    """Class description."""
+
+    supported_operations = ["+", "-", "*", "/", "//", "%", "**"]
 
     def __init__(self):
         pass
 
     @staticmethod
-    def add(numbers):
-        return sum(numbers)
+    def process_expression(exp):
+        while exp.count("--") >= 1 or exp.count("++") >= 1:
+            exp = exp.replace("--", "+")
+            exp = exp.replace("++", "+")
+            exp = exp.replace("+-", "-")
+        exp_list = exp.split(" ")
+
+        processed_list = []
+
+        for x in exp_list:
+            if x:
+                processed_list.append(x)
+
+        return Calculator.compute_expression(processed_list)
+
+    @staticmethod
+    def compute_expression(processed_list):
+        numbers = deque()
+        operators = deque()
+
+        for element in processed_list:
+            if element in Calculator.supported_operations:
+                operators.append(element)
+            else:
+                numbers.append(int(element))
+
+        while len(numbers) > 1:
+            operation = operators.popleft()
+            operand_a = numbers.popleft()
+            operand_b = numbers.popleft()
+
+            result = 0
+            if operation == "+":
+                result = Calculator.add(operand_a, operand_b)
+            elif operation == "-":
+                result = Calculator.subtract(operand_a, operand_b)
+            numbers.appendleft(result)
+        return numbers.pop()
+
+    @staticmethod
+    def add(a, b):
+        return a + b
+    # def add(numbers):
+    #     return sum(numbers)
 
     @staticmethod
     def add_args(*args):
@@ -58,19 +106,21 @@ def run():
             break
 
         if user_input == "/help":
-            print("The program calculates the sum of numbers")
+            print("The program computes operations containing additions and subtractions.")
             continue
 
-        input_list = user_input.split(" ")
+        print(Calculator.process_expression(user_input))
+
+        # print(eval(user_input))
 
         # IF only one number is entered
-        if len(input_list) < 2:
-            print(int(input_list[0]))
-            continue
+        # if len(input_list) < 2:
+        #     print(int(input_list[0]))
+        #     continue
 
         # Sum all numbers
-        numbers = [int(x) for x in input_list]
-        print(Calculator.add(numbers))
+        # numbers = [int(x) for x in input_list]
+        # print(Calculator.add(numbers))
 
 
 if __name__ == "__main__":
