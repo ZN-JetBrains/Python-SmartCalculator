@@ -4,12 +4,30 @@ from collections import deque
 
 
 class Calculator:
-    """Class description."""
+    """A class that computes expressions containing additions and subtractions."""
 
+    commands = ["/help", "/exit"]
     supported_operations = ["+", "-", "*", "/", "//", "%", "**"]
+    ADDITION = "+"
+    SUBTRACTION = "-"
 
     def __init__(self):
         pass
+
+    # @staticmethod
+    # def __doc__(self):
+    #     print("The program computes operations containing additions and subtractions.")
+
+    @staticmethod
+    def execute_command(command):
+        if command == "/exit":
+            print("Bye!")
+            return False
+
+        if command == "/help":
+            print(Calculator.__doc__)
+            # print("The program computes operations containing additions and subtractions.")
+        return True
 
     @staticmethod
     def process_expression(exp):
@@ -25,6 +43,14 @@ class Calculator:
             if x:
                 processed_list.append(x)
 
+        if len(processed_list) == 1:
+            try:
+                value = int(processed_list.pop())
+            except Exception:
+                raise ValueError
+            else:
+                return value
+
         return Calculator.compute_expression(processed_list)
 
     @staticmethod
@@ -38,15 +64,18 @@ class Calculator:
             else:
                 numbers.append(int(element))
 
+        if not operators:
+            raise ValueError
+
         while len(numbers) > 1:
             operation = operators.popleft()
             operand_a = numbers.popleft()
             operand_b = numbers.popleft()
 
             result = 0
-            if operation == "+":
+            if operation == Calculator.ADDITION:
                 result = Calculator.add(operand_a, operand_b)
-            elif operation == "-":
+            elif operation == Calculator.SUBTRACTION:
                 result = Calculator.subtract(operand_a, operand_b)
             numbers.appendleft(result)
         return numbers.pop()
@@ -94,22 +123,26 @@ class Calculator:
 
 
 def run():
-    while True:
+    is_running = True
+    while is_running:
         user_input = input()
 
         # IF no input is entered
         if not user_input:
             continue
 
-        if user_input == "/exit":
-            print("Bye!")
-            break
+        if user_input.startswith("/"):
+            if user_input in Calculator.commands:
+                is_running = Calculator.execute_command(user_input)
+                continue
+            else:
+                print("Unknown command")
+                continue
 
-        if user_input == "/help":
-            print("The program computes operations containing additions and subtractions.")
-            continue
-
-        print(Calculator.process_expression(user_input))
+        try:
+            print(Calculator.process_expression(user_input))
+        except ValueError:
+            print("Invalid expression")
 
         # print(eval(user_input))
 
