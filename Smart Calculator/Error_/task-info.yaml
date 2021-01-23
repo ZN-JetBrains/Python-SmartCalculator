@@ -1,33 +1,6 @@
 type: edu
 custom_name: Error!
 files:
-- name: calculator/calculator.py
-  visible: true
-  text: |
-    # Author: Zaid Neurothrone
-
-    # Stage 1/7
-    # numbers = [int(x) for x in input().split(" ")]
-    # print(sum(numbers))
-
-    # Stage 2/7
-    while True:
-        user_input = input()
-        if user_input == "":
-            continue
-        elif user_input == "/help":
-            print("The program calculates the sum of numbers")
-            continue
-        elif user_input == "/exit":
-            print("Bye!")
-            break
-        else:
-            numbers = [int(x) for x in user_input.split(" ")]
-            if len(numbers) == 1:
-                print(numbers[0])
-            else:
-                print(sum(numbers))
-  learner_created: false
 - name: tests.py
   visible: false
   text: |
@@ -175,9 +148,36 @@ files:
     if __name__ == '__main__':
         CalcTest("calculator.calculator").run_tests()
   learner_created: false
+- name: calculator/calculator.py
+  visible: true
+  text: |
+    # Author: Zaid Neurothrone
+
+    # Stage 1/7
+    # numbers = [int(x) for x in input().split(" ")]
+    # print(sum(numbers))
+
+    # Stage 2/7
+    while True:
+        user_input = input()
+        if user_input == "":
+            continue
+        elif user_input == "/help":
+            print("The program calculates the sum of numbers")
+            continue
+        elif user_input == "/exit":
+            print("Bye!")
+            break
+        else:
+            numbers = [int(x) for x in user_input.split(" ")]
+            if len(numbers) == 1:
+                print(numbers[0])
+            else:
+                print(sum(numbers))
+  learner_created: false
 feedback_link: https://hyperskill.org/projects/74/stages/413/implement#comment
 status: Solved
 feedback:
   message: Congratulations!
   time: Fri, 22 Jan 2021 04:02:56 UTC
-record: -1
+record: 5
